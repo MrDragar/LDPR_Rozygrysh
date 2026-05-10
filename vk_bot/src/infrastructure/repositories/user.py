@@ -43,7 +43,7 @@ class UserRepository(IUserRepository):
         logger.debug(user_orm)
         return user_orm is not None
 
-    async def is_email_existing(self, email: str) -> bool:
+    async def is_email_existing(self, email: str | None) -> bool:
         session = self.__uow.get_session()
         stmt = select(UserORM).where(UserORM.email == email)
         user_orm = await session.scalar(stmt)

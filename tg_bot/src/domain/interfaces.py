@@ -24,7 +24,7 @@ class IUserRepository(ABC):
         ...
     
     @abstractmethod
-    async def is_email_existing(self, email: str) -> bool:
+    async def is_email_existing(self, email: str | None) -> bool:
         ...
 
     @abstractmethod
