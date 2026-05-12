@@ -17,7 +17,6 @@ class RegistrationStates(BaseStateGroup):
     WISH_TO_JOIN = "wish_to_join"
     HOME_ADDRESS = "home_address"
     NEWS_SUBSCRIPTION = "news_subscription"
-    CHECK_SUBSCRIPTION = "check_subscription"
 
 
 class PostsStates(BaseStateGroup):
