@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 
 async def finish_registration(
         user_service: IUserService,
-        participation_service: IParticipationService,
         peer_id: int,
         state_payload: dict,
         ctx_api,
@@ -51,8 +50,6 @@ async def finish_registration(
             home_address=state_payload.get('home_address'),
             news_subscription=state_payload['news_subscription']
         )
-        number = await participation_service.activate_participation(user.id, user.source)
-
         photo = await photo_uploader.upload(
             'docs/sokol_like.webp',
             peer_id=peer_id
@@ -67,7 +64,6 @@ async def finish_registration(
             peer_id=peer_id,
             message=(
                 f"Поздравляем, вы успешно зарегистрированы.\n"
-                f"Ваш уникальный номер — {number}."
             ),
             random_id=0
         )
@@ -102,7 +98,6 @@ async def finish_registration(
             f"Подписка на новости: {'Есть' if user.news_subscription else 'Нет'}\n\n"
             
             f"ID участника: {user.id}\n"
-            f"Номер участника: {number}"
         )
 
         await tg_bot.send_message(
