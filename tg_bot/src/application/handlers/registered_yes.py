@@ -12,7 +12,8 @@ router = Router()
 @router.message(ParticipateRegisteredStates.step, F.text == 'Да')
 async def take_a_part(
         message: types.Message, state: FSMContext,
-        participation_service: IParticipationService,
+        participation_service: IParticipationService, log_chat: str
+
 ):
     number = await participation_service.activate_participation(message.from_user.id, Sources.TG)
     await message.reply(
@@ -21,3 +22,4 @@ async def take_a_part(
     )
     await state.clear()
     await message.answer("Меню", reply_markup=get_menu_keyboard())
+    await message.bot.send_message(chat_id=log_chat, text=f"Зарегистированный пользователь TG {message.from_user.id} принял участие в конкурсе")
