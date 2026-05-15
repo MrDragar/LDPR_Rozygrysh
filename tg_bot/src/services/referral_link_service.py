@@ -15,7 +15,7 @@ class ReferralLinkService(IReferralLinkService):
         tg_url = f"{self.tg_bot_link}?start={user_id}_{self.source.value}"
 
         text = (
-            "<b>🔥 Грандиозный конкурс от ЛДПР!</b>\n\n"
+            "<b>🔥 Грандиозный розыгрыш от ЛДПР!</b>\n\n"
             "Участвуй и выигрывай крутые призы!\n"
             "Присоединяйся прямо сейчас и приглашай друзей:\n\n"
             f"ВКонтакте: <a href='{vk_url}'>Перейти в бота ВК</a>\n"
