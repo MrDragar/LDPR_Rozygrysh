@@ -43,9 +43,10 @@ async def generate_referral(
         message.peer_id, Sources.TG
     )
     await message.answer(
-        f"Вы пригласили уже {referral_count} людей\n"
+        f"Вы пригласили уже {referral_count} людей.\n"
         "Пригласи трёх друзей к участию в розыгрыше и получи дополнительные номера для "
-        "увеличения шансов выигрыша"
+        "увеличения шансов выигрыша.\n\n"
+        "Просто перешли им сообщение ниже ⬇️"
     )
     post = referral_link_service.generate_post(message.peer_id)
 

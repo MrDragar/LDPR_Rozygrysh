@@ -25,7 +25,7 @@ class ReferralLinkService(IReferralLinkService):
             "Присоединяйся прямо сейчас и приглашай друзей:\n\n"
             f"ВКонтакте: " + url('Перейти в бота ВК', href=vk_url) + "\n" 
             f"Telegram: " + url('Перейти в бота TG', href=tg_url) + "\n\n"
-            + italic("Твое будущее в твоих руках!")
+            + italic("Желаем удачи!")
         )
 
         return Repost(text=text, image_path=self.image_path)
