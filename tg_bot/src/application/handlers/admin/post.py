@@ -1,4 +1,3 @@
-import asyncio
 import json
 import logging
 from datetime import timedelta, timezone, datetime
@@ -9,7 +8,7 @@ from aiogram.types import ReplyKeyboardRemove
 
 from src.application.keyboards.admin.post_keyboard import get_post_keyboard
 from src.application.states import PostsStates
-from src.services.interfaces import IUserService
+from src.services.interfaces import IUserService, IParticipationService
 
 router = Router(name=__name__)
 logger = logging.getLogger(__name__)
@@ -38,7 +37,8 @@ async def get_message_handler(message: types.Message, state: FSMContext):
 
 @router.message(PostsStates.confirm, F.text.lower().strip() == 'подтвердить')
 async def confirm_post_handler(
-        message: types.Message, state: FSMContext, user_service: IUserService
+        message: types.Message, state: FSMContext, user_service: IUserService,
+        participation_service: IParticipationService,
 ):
     users = await user_service.get_all_users()
     message_id = (await state.get_data())['message_id']
@@ -51,6 +51,8 @@ async def confirm_post_handler(
     for user in users:
         logger.info(f"Checking {user.id}")
         try:
+            if await participation_service.is_participant(user.id, user.source):
+                continue
             sent_message = await message.bot.copy_message(user.id, message.chat.id, message_id,
                                                           disable_notification=False)
             good_id.append(user.id)
@@ -69,7 +71,7 @@ async def confirm_post_handler(
     results = {
         "total_users": len(users),
         "success_count": success_count,
-        "failed_count": len(users) - success_count,
+        "failed_count": len(bad_id),
         "successful_ids": good_id,
         "failed_users": bad_id,
         "timestamp": datetime.now().isoformat()
