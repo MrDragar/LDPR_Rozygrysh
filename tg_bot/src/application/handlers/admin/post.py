@@ -51,8 +51,6 @@ async def confirm_post_handler(
     for user in users:
         logger.info(f"Checking {user.id}")
         try:
-            if await participation_service.is_participant(user.id, user.source):
-                continue
             sent_message = await message.bot.copy_message(user.id, message.chat.id, message_id,
                                                           disable_notification=False)
             good_id.append(user.id)
