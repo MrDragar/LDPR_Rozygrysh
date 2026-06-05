@@ -10,7 +10,8 @@ from src.application.keyboards.menu_keyboard import get_menu_keyboard
 from src.application.keyboards.personal_data_keyboard import get_personal_data_keyboard
 from src.application.states import RegistrationStates
 from src.domain.entities import Sources
-from src.services.interfaces import IUserService, IReferralService, IParticipationService
+from src.services.interfaces import (IUserService, IReferralService, IParticipationService,
+                                     IActiveUserService)
 
 router = BotLabeler()
 start_command_router = BotLabeler()
@@ -29,10 +30,12 @@ def parse_ref(ref: str) -> tuple[int, Sources] | None:
 async def start(
         message: Message, user_service: IUserService, 
         state_dispenser: BuiltinStateDispenser, photo_uploader: PhotoMessageUploader,
-        participation_service: IParticipationService, referral_service: IReferralService
+        participation_service: IParticipationService, referral_service: IReferralService,
+        active_user_service: IActiveUserService
 ):
     if message.peer_id < 0:
         return
+    await active_user_service.log_active_user(message.peer_id, Sources.VK)
     if await participation_service.is_participant(message.peer_id, Sources.VK):
         id_count = len(await participation_service.get_all_participation_ids(
             message.peer_id, Sources.VK

@@ -11,7 +11,7 @@ from src.application.states import RegistrationStates, ParticipateRegisteredStat
 
 from src.application.filters import IsParticipantFilter, IsRegisteredFilter, ValidatedStartFilter
 from src.domain.entities import Sources
-from src.services.interfaces import IParticipationService, IReferralService
+from src.services.interfaces import IParticipationService, IReferralService, IActiveUserService
 
 router = Router(name=__name__)
 start_command_router = Router(name=__name__)
@@ -77,11 +77,12 @@ async def cmd_start(
 @start_command_router.message(filters.CommandStart())
 @start_command_router.message(F.text == 'Отмена')
 async def start(message: types.Message,
-                state: FSMContext):
+                state: FSMContext, active_user_service: IActiveUserService
+):
     if message.chat.id <= 0:
         return
     logging.debug(f"User {message.from_user.id} Start conversation")
-
+    await active_user_service.log_active_user(message.from_user.id, Sources.TG)
     await message.answer_sticker(types.FSInputFile('docs/sokol_stay.webp'))
     await message.reply(
         "Здравствуйте. Я, соколёнок Русик, интернет-помощник ЛДПР.\n"

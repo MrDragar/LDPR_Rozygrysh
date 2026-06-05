@@ -1,13 +1,13 @@
 from src.core.di import DeclarativeContainer, providers
 from src.domain.entities import Sources
 from src.domain.interfaces import IUnitOfWork, IUserRepository, IStringSorterRepository, \
-    IParticipationRepository, IReferralRepository
+    IParticipationRepository, IReferralRepository, IActiveUserRepository
 from src.infrastructure import Database, UnitOfWork
 from src.infrastructure.interfaces import IDatabase
 from src.infrastructure.repositories import UserRepository, \
-    FuzzywuzzyRepository, ParticipationRepository, ReferralRepository
-from src.services import UserService
-from src.services.interfaces import IUserService
+    FuzzywuzzyRepository, ParticipationRepository, ReferralRepository, ActiveUserRepository
+from src.services import UserService, ActiveUserService
+from src.services.interfaces import IUserService, IActiveUserService
 from src.core import config
 from src.services.participation_service import ParticipationService
 from src.services.referral_link_service import ReferralLinkService
@@ -31,6 +31,9 @@ class Container(DeclarativeContainer):
     string_sorter: providers.Factory[IStringSorterRepository] = providers.Factory(
         FuzzywuzzyRepository
     )
+    active_user_repository: providers.Factory[IActiveUserRepository] = providers.Factory(
+        ActiveUserRepository, uow=uow
+    )
     user_service: providers.Factory[IUserService] = providers.Factory(
         UserService, user_repo=user_repository, uow=uow, string_sorter_repo=string_sorter, source=Sources.TG
     )
@@ -52,6 +55,9 @@ class Container(DeclarativeContainer):
         tg_bot_link=config.TG_BOT_LINK,
         source=Sources.TG,
         image_path="docs/gifts.png"
+    )
+    active_user_service: providers.Factory[IActiveUserService] = providers.Factory(
+        ActiveUserService, uow=uow, repo=active_user_repository
     )
 
     log_chat: providers.Object[str] = providers.Object(config.log_chat)
