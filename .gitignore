@@ -3,4 +3,6 @@
 .env
 .venv
 db.sqlite3
+vk_db.sqlite3
+tg_db.sqlite3
 logs/

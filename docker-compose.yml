@@ -6,7 +6,7 @@ services:
       - ./tg_bot/src:/app/src
       - ./logs:/app/logs
       - ./tg_bot/docs:/app/docs
-      - ./db.sqlite3:/app/db.sqlite3
+      - ./tg_db.sqlite3:/app/db.sqlite3
     env_file:
       - .env
     environment:
@@ -27,7 +27,7 @@ services:
       - ./vk_bot/src:/app/src
       - ./logs:/app/logs
       - ./vk_bot/docs:/app/docs
-      - ./db.sqlite3:/app/db.sqlite3
+      - ./vk_db.sqlite3:/app/db.sqlite3
     env_file:
       - .env
     environment:
@@ -40,6 +40,7 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
       LOG_FILE: ${LOG_FILE}
       LOG_FORMAT: ${LOG_FORMAT}
+      GROUP_ID: ${VK_GROUP_ID}
     restart: always
 
 networks:
