@@ -67,7 +67,7 @@ async def finish_registration(
             peer_id=peer_id,
             message=(
                 f"Поздравляем, вы успешно зарегистрированы.\n"
-                f"Ваш уникальный номер — {number}."
+                f"Ваш уникальный номер — {number}ВК."
             ),
             random_id=0
         )
@@ -102,7 +102,7 @@ async def finish_registration(
             f"Подписка на новости: {'Есть' if user.news_subscription else 'Нет'}\n\n"
             
             f"ID участника: {user.id}\n"
-            f"Номер участника: {number}"
+            f"Номер участника: {number}ВК"
         )
 
         await tg_bot.send_message(

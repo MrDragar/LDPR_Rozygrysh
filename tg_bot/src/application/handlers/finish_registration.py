@@ -40,7 +40,7 @@ async def finish_registration(
         types.FSInputFile('docs/sokol_like.webp')
     )
     await message.answer(
-        f"Поздравляем, вы успешно зарегистрированы.\nВаш уникальный номер - {number}.",
+        f"Поздравляем, вы успешно зарегистрированы.\nВаш уникальный номер - {number}ТГ.",
         parse_mode="HTML",
         reply_markup=types.ReplyKeyboardRemove()
     )
@@ -63,7 +63,7 @@ async def finish_registration(
 Подписка на новости: {'Есть' if news_subscription else 'Нет'}
 
 ID участника: {user.id}
-Номер участника: {number}
+Номер участника: {number}ТГ
 """)
 
 

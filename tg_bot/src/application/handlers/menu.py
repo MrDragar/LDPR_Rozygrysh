@@ -23,7 +23,7 @@ async def show_numbers(
         message.from_user.id, Sources.TG
     )
 
-    res = ['Ваши номера:\n', *list(map(str, numbers[:100]))]
+    res = ['Ваши номера:\n', *list(map(lambda x: str(x) + "ТГ", numbers[:100]))]
     if len(numbers) > 100:
         res.append('...')
     await message.reply(

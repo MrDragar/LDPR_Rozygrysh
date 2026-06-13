@@ -21,7 +21,7 @@ async def show_numbers(
         message.peer_id, Sources.VK
     )
 
-    res = ['Ваши номера:\n', *list(map(str, numbers[:100]))]
+    res = ['Ваши номера:\n', *list(map(lambda x: str(x) + "ВК", numbers[:100]))]
     if len(numbers) > 100:
         res.append('...')
     await message.reply(
